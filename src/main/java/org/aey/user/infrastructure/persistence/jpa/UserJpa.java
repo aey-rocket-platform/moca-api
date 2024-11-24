@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.aey.user.domain.entities.User;
 import org.aey.user.infrastructure.persistence.queries.UserQueryManager;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
 
@@ -17,7 +18,11 @@ import java.util.Date;
 public class UserJpa {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "nano-id")
+    @GenericGenerator(
+            name = "nano-id",
+            strategy = "org.aey.common.utils.nanoid.strategies.NanoIdGenerator"
+    )
     @Column(
             name = UserQueryManager.USER_ID,
             unique = true,
