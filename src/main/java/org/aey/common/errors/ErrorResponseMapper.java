@@ -1,4 +1,4 @@
-package org.aey.shared.errors;
+package org.aey.common.errors;
 
 import jakarta.ws.rs.core.Response;
 

@@ -5,7 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.aey.shared.errors.ErrorResponseMapper;
+import org.aey.common.errors.ErrorResponseMapper;
 import org.aey.user.application.ports.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

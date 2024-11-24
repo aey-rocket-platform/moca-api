@@ -4,7 +4,7 @@ import io.smallrye.mutiny.Uni;
 import io.vavr.control.Either;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import org.aey.shared.errors.ErrorCode;
+import org.aey.common.errors.ErrorCode;
 import org.aey.user.application.ports.repostitory.UserRepository;
 import org.aey.user.application.ports.services.UserService;
 import org.aey.user.infrastructure.rest.dto.UserDto;
