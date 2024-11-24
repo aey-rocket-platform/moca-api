@@ -4,6 +4,7 @@ import io.smallrye.mutiny.Uni;
 import io.vavr.control.Either;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.aey.shared.errors.ErrorCode;
 import org.aey.user.application.ports.repostitory.UserRepository;
 import org.aey.user.application.ports.services.UserService;
 import org.aey.user.infrastructure.rest.dto.UserDto;
@@ -19,15 +20,19 @@ public class UserUseCase implements UserService {
     UserRepository userRepository;
 
     @Override
-    public Uni<Either<Error, UserDto>> getUserById(Long id) {
+    public Uni<Either<ErrorCode, UserDto>> getUserById(Long id) {
         return this.userRepository.findOneById(id)
-                .onItem().transform(user ->
-                    user
-                            .<Either<Error, UserDto>>map(u -> Either.right(UserDto.fromEntity(u)))
-                            .orElseGet(() -> {
-                                LOGGER.error("User not found with id {}", id);
-                                return Either.left(new Error("User not found"));
-                            })
-                );
+                .onItem().transform(userOp -> {
+                    if (userOp == null) {
+                        return Either.left(ErrorCode.INTERNAL_SERVER_ERROR);
+                    }
+                    if (userOp.isEmpty()) {
+                        return Either.left(ErrorCode.NOT_FOUND);
+                    }
+                    if (userOp.get().getIsActive().equals(Boolean.FALSE)) {
+                        return Either.left(ErrorCode.RESOURCE_NOT_AVAILABLE);
+                    }
+                    return Either.right(UserDto.fromEntity(userOp.get()));
+                });
     }
 }
