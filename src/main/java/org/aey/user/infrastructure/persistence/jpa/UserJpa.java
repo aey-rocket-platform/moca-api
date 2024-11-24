@@ -1,11 +1,6 @@
 package org.aey.user.infrastructure.persistence.jpa;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 import lombok.*;
 import org.aey.user.domain.entities.User;
 import org.aey.user.infrastructure.persistence.queries.UserQueryManager;
@@ -15,7 +10,6 @@ import java.util.Date;
 @Builder
 @Getter
 @Setter
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -23,14 +17,14 @@ import java.util.Date;
 public class UserJpa {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(
             name = UserQueryManager.USER_ID,
             unique = true,
             nullable = false,
             length = 21
     )
-    private String userId;
+    private Long userId;
 
     @Column(name = UserQueryManager.USER_NAME)
     private String name;
