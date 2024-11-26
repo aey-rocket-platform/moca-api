@@ -1,9 +1,9 @@
-package org.aey.common.errors;
+package org.aey.common.entities.errors;
 
 import lombok.Getter;
 
 @Getter
-public enum ErrorCode {
+public enum MocaErrorCode {
 
     BAD_REQUEST(400, "Bad Request", "Invalid request format. Please check the request body"),
     UNIQUENESS_RULE(400, "Bad Request", "Insertion error. This element already exists"),
@@ -22,7 +22,7 @@ public enum ErrorCode {
     private final String errorCode;
     private final String message;
 
-    ErrorCode(Integer statusCode, String errorCode, String message) {
+    MocaErrorCode(Integer statusCode, String errorCode, String message) {
         this.statusCode = statusCode;
         this.errorCode = errorCode;
         this.message = message;
