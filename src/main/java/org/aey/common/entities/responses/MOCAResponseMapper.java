@@ -2,10 +2,10 @@ package org.aey.common.entities.responses;
 
 import jakarta.ws.rs.core.Response;
 
-public class MocaResponseMapper {
+public class MOCAResponseMapper {
 
-    public static <T> MocaResponse<T> toEntity(MocaResponseCode mocaResponseCode, T data) {
-        return MocaResponse.<T>builder()
+    public static <T> MOCAResponse<T> toEntity(MOCAResponseCode mocaResponseCode, T data) {
+        return MOCAResponse.<T>builder()
                 .statusCode(mocaResponseCode.getStatusCode())
                 .action(mocaResponseCode.getAction())
                 .message(mocaResponseCode.getMessage())
@@ -13,7 +13,7 @@ public class MocaResponseMapper {
                 .build();
     }
 
-    public static <T> Response toResponse(MocaResponse<T> mocaResponse) {
+    public static <T> Response toResponse(MOCAResponse<T> mocaResponse) {
         return Response.status(mocaResponse.getStatusCode())
                 .entity(mocaResponse)
                 .build();

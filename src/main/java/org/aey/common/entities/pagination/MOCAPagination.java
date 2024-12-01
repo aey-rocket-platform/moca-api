@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MocaPagination<T> {
+public class MOCAPagination<T> {
     private Integer totalItems;
     private Integer page;
     private Integer lastPage;

@@ -9,7 +9,7 @@ import org.aey.user.infrastructure.persistence.jpa.UserJpa;
 import java.util.List;
 
 @ApplicationScoped
-public class UserPostgresRepository implements PanacheRepositoryBase<UserJpa, Long> {
+public class UserPostgresRepository implements PanacheRepositoryBase<UserJpa, String> {
 
     public Uni<List<UserJpa>> findAllActiveUsers(Integer limit, Integer offset) {
         int pageSize = (limit != null) ? limit : 10;

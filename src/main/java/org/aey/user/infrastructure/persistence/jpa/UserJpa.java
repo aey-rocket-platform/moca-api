@@ -18,18 +18,13 @@ import java.util.Date;
 public class UserJpa {
 
     @Id
-    @GeneratedValue(generator = "nano-id")
-    @GenericGenerator(
-            name = "nano-id",
-            strategy = "org.aey.common.utils.nanoid.strategies.NanoIdGenerator"
-    )
     @Column(
             name = UserQueryManager.USER_ID,
             unique = true,
             nullable = false,
             length = 21
     )
-    private Long userId;
+    private String userId;
 
     @Column(name = UserQueryManager.USER_NAME)
     private String name;

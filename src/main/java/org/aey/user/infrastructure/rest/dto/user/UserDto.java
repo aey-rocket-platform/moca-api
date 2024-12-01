@@ -1,4 +1,4 @@
-package org.aey.user.infrastructure.rest.dto;
+package org.aey.user.infrastructure.rest.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -15,7 +15,7 @@ import java.util.Date;
 public class UserDto {
 
     @JsonProperty
-    private Long userId;
+    private String userId;
 
     @JsonProperty
     private String name;

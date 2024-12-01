@@ -3,10 +3,11 @@ package org.aey.common.entities.responses;
 import lombok.Getter;
 
 @Getter
-public enum MocaResponseCode {
+public enum MOCAResponseCode {
 
     //Users
     GET_USER(200, "Get user", "User retrieved successfully"),
+    CREATE_USER(201, "Create user", "User created successfully"),
 
     //Products
     DISABLE_PRODUCT(200, "Product disabled", "Product was disabled successfully"),
@@ -29,7 +30,7 @@ public enum MocaResponseCode {
     private final Integer statusCode;
     private final String action;
     private final String message;
-    MocaResponseCode(Integer statusCode, String action, String message) {
+    MOCAResponseCode(Integer statusCode, String action, String message) {
         this.statusCode = statusCode;
         this.action = action;
         this.message = message;

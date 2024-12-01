@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    private Long userId;
+    private String userId;
     private String name;
     private String firstSurname;
     private String secondSurname;
