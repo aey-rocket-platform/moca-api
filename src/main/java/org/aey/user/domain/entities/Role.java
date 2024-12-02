@@ -1,6 +1,11 @@
 package org.aey.user.domain.entities;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -11,9 +16,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role {
-    private String roleId;
-    private String roleName;
-    private String description;
+    private Long roleId;
+    private String roleType;
     private Date createdAt;
     private Date updatedAt;
     private Boolean isActive;

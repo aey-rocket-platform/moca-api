@@ -1,7 +1,12 @@
 package org.aey.user.infrastructure.rest.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.aey.user.domain.entities.User;
 
 import java.util.Date;

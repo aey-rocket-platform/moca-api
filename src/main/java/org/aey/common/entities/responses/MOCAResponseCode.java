@@ -5,6 +5,10 @@ import lombok.Getter;
 @Getter
 public enum MOCAResponseCode {
 
+    //Roles
+    GET_ROLE_BY_ID(200, "Get role", "Role retrieved successfully"),
+    CREATE_ROLE(201, "Create role", "Role created successfully"),
+
     //Users
     GET_USER(200, "Get user", "User retrieved successfully"),
     CREATE_USER(201, "Create user", "User created successfully"),

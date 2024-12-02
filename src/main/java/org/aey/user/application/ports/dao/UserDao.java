@@ -41,9 +41,7 @@ public class UserDao implements UserRepository {
     public Uni<Optional<User>> findOneById(String id) {
         return this.userPostgresRepository.findById(id)
                 .onItem().ifNotNull().transform(userJpa ->
-                        userJpa == null
-                                ? Optional.empty()
-                                : Optional.of(userJpa.toEntity())
+                        Optional.ofNullable(userJpa).map(UserJpa::toEntity)
                 );
     }
 

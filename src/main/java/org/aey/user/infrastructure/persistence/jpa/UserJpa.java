@@ -1,10 +1,13 @@
 package org.aey.user.infrastructure.persistence.jpa;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.aey.user.domain.entities.User;
 import org.aey.user.infrastructure.persistence.queries.UserQueryManager;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
 

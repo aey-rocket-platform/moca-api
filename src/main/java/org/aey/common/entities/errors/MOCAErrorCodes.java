@@ -16,11 +16,18 @@ public enum MOCAErrorCodes {
     ERROR("MOCA-SYS-ERR008", 500, "Internal Server Error", "Oops... Something went wrong, check server logs"),
     ERROR_TO_CREATE("MOCA-SYS-ERR009", 500, "Internal Server Error", "Oops... Something went wrong, resource could not be created"),
     INTERNAL_SERVER_ERROR("MOCA-SYS-ERR010", 500, "Internal Server Error", "An unexpected error occurred while processing the request. Please try again later or contact support"),
-    
+
+    //Role Error Codes
+    ROLE_NOT_FOUND("MOCA-ROL-ERR001", 404, "Not Found", "User not found"),
+    ROLE_NOT_AVAILABLE("MOCA-ROL-ERR002", 400, "Bad Request", "User not available"),
+    ROLE_ERROR_TO_CREATE("MOCA-ROL-ERR003", 500, "Internal Server Error", "Oops... Something went wrong, user could not be created"),
+
+
     //User Error Codes
     USER_NOT_FOUND("MOCA-USR-ERR001", 404, "Not Found", "User not found"),
     USER_NOT_AVAILABLE("MOCA-USR-ERR002", 400, "Bad Request", "User not available"),
     USER_ERROR_TO_CREATE("MOCA-USR-ERR003", 500, "Internal Server Error", "Oops... Something went wrong, user could not be created"),
+
     ;
 
     private final String mocaErrorCode;

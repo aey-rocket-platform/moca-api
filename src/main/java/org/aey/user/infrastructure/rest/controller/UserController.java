@@ -1,9 +1,7 @@
 package org.aey.user.infrastructure.rest.controller;
 
-import io.smallrye.common.annotation.Blocking;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -36,6 +34,11 @@ public class UserController {
             description = "Get all users",
             content = { @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = UserDto.class)) }
     )
+    @APIResponse(
+            responseCode = "500",
+            description = "Unexpected server error",
+            content = { @Content(mediaType = MediaType.APPLICATION_JSON) }
+    )
     public Uni<Response> getAllUsers(
             @QueryParam("limit") Integer limit,
             @QueryParam("offset") Integer offset
@@ -66,6 +69,11 @@ public class UserController {
             description = "Resource not found",
             content = { @Content(mediaType = MediaType.APPLICATION_JSON) }
     )
+    @APIResponse(
+            responseCode = "500",
+            description = "Unexpected server error",
+            content = { @Content(mediaType = MediaType.APPLICATION_JSON) }
+    )
     public Uni<Response> getUserById(@PathParam("id") String id) {
         return this.userService.getUserById(id)
                 .onItem().transform(either ->
@@ -91,6 +99,11 @@ public class UserController {
     @APIResponse(
             responseCode = "404",
             description = "Resource not found",
+            content = { @Content(mediaType = MediaType.APPLICATION_JSON) }
+    )
+    @APIResponse(
+            responseCode = "500",
+            description = "Unexpected server error",
             content = { @Content(mediaType = MediaType.APPLICATION_JSON) }
     )
     public Uni<Response> createUser(CreateUserDto createUserDto) {
