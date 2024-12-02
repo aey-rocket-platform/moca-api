@@ -22,6 +22,10 @@ public enum MOCAErrorCodes {
     ROLE_NOT_AVAILABLE("MOCA-ROL-ERR002", 400, "Bad Request", "User not available"),
     ROLE_ERROR_TO_CREATE("MOCA-ROL-ERR003", 500, "Internal Server Error", "Oops... Something went wrong, user could not be created"),
 
+    //Account Error Codes
+    ACCOUNT_NOT_FOUND("MOCA-ACC-ERR001", 404, "Not Found", "User not found"),
+    ACCOUNT_NOT_AVAILABLE("MOCA-ACC-ERR002", 400, "Bad Request", "User not available"),
+    ACCOUNT_ERROR_TO_CREATE("MOCA-ACC-ERR003", 500, "Internal Server Error", "Oops... Something went wrong, user could not be created"),
 
     //User Error Codes
     USER_NOT_FOUND("MOCA-USR-ERR001", 404, "Not Found", "User not found"),

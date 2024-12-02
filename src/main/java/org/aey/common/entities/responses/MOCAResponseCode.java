@@ -10,6 +10,10 @@ public enum MOCAResponseCode {
     CREATE_ROLE(201, "Create role", "Role created successfully"),
 
     //Users
+    GET_ACCOUNT(200, "Get account", "Account retrieved successfully"),
+    CREATE_ACCOUNT(201, "Create account", "Account created successfully"),
+
+    //Users
     GET_USER(200, "Get user", "User retrieved successfully"),
     CREATE_USER(201, "Create user", "User created successfully"),
 

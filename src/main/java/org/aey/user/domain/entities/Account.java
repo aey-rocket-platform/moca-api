@@ -7,8 +7,8 @@ import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Getter
@@ -24,7 +24,7 @@ public class Account {
     private String mobilePhone;
     private String phoneNumber;
     private String status;
-    private ArrayList<UserImage> images;
+    private List<UserImage> images;
     private Date createdAt;
     private Date updatedAt;
     private Boolean isActive;
