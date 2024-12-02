@@ -2,8 +2,8 @@ package org.aey.user.domain.entities;
 
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @Getter
@@ -19,7 +19,7 @@ public class Account {
     private String mobilePhone;
     private String phoneNumber;
     private String status;
-    private ArrayList<UserImage> images;
+    private List<UserImage> images;
     private Date createdAt;
     private Date updatedAt;
     private Boolean isActive;

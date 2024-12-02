@@ -16,7 +16,12 @@ public enum MOCAErrorCodes {
     ERROR("MOCA-SYS-ERR008", 500, "Internal Server Error", "Oops... Something went wrong, check server logs"),
     ERROR_TO_CREATE("MOCA-SYS-ERR009", 500, "Internal Server Error", "Oops... Something went wrong, resource could not be created"),
     INTERNAL_SERVER_ERROR("MOCA-SYS-ERR010", 500, "Internal Server Error", "An unexpected error occurred while processing the request. Please try again later or contact support"),
-    
+
+    //User Error Codes
+    ACCOUNT_NOT_FOUND("MOCA-ACC-ERR001", 404, "Not Found", "User not found"),
+    ACCOUNT_NOT_AVAILABLE("MOCA-ACC-ERR002", 400, "Bad Request", "User not available"),
+    ACCOUNT_ERROR_TO_CREATE("MOCA-ACC-ERR003", 500, "Internal Server Error", "Oops... Something went wrong, user could not be created"),
+
     //User Error Codes
     USER_NOT_FOUND("MOCA-USR-ERR001", 404, "Not Found", "User not found"),
     USER_NOT_AVAILABLE("MOCA-USR-ERR002", 400, "Bad Request", "User not available"),
