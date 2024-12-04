@@ -111,7 +111,8 @@ public class UserController {
     public Uni<Response> createUser(CreateUserDto createUserDto) {
         return this.userService.createUser(createUserDto)
                 .onItem().transform(either ->
-                        either.map(user -> MOCAResponseMapper.toResponse(MOCAResponseMapper.toEntity(MOCAResponseCode.CREATE_USER, UserDto.fromEntity(user))))
+                        either.map(userAccount -> MOCAResponseMapper
+                                        .toResponse(MOCAResponseMapper.toEntity(MOCAResponseCode.CREATE_USER, UserAccountDto.fromEntity(userAccount))))
                                 .getOrElseGet(MOCAErrorMapper::toResponse)
                 );
     }

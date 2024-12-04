@@ -45,9 +45,6 @@ public class UserDto {
     @JsonProperty
     private Boolean isActive;
 
-    @JsonProperty
-    private AccountDto account;
-
     public static UserDto fromEntity(User entity) {
         return UserDto.builder()
                 .userId(entity.getUserId())
@@ -58,7 +55,6 @@ public class UserDto {
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isActive(entity.getIsActive())
-                .account(entity.getAccount())
                 .build();
     }
 }

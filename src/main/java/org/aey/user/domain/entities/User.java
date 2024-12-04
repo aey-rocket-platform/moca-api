@@ -26,5 +26,4 @@ public class User {
     private Boolean isActive;
     private Long genderId;
     private Long roleId;
-    private Account account;
 }

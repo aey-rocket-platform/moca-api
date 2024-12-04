@@ -15,6 +15,7 @@ import org.aey.user.application.ports.services.AccountService;
 import org.aey.user.application.ports.services.RoleService;
 import org.aey.user.application.ports.services.UserService;
 import org.aey.user.domain.entities.User;
+import org.aey.user.domain.entities.UserAccount;
 import org.aey.user.infrastructure.rest.dto.user.CreateUserDto;
 import org.aey.user.infrastructure.rest.dto.user.UserDto;
 import org.slf4j.Logger;
@@ -63,8 +64,8 @@ public class UserUseCase implements UserService {
     }
 
     @Override
-    public Uni<Either<MOCAErrorCodes, User>> createUser(CreateUserDto createUserDto) {
-        return this.roleService.getRoleById(3L)
+    public Uni<Either<MOCAErrorCodes, UserAccount>> createUser(CreateUserDto createUserDto) {
+        return this.roleService.getRoleById(300L)
                 .onItem().ifNotNull().transform(Either::get)
                 .onItem().transformToUni(role ->
                         this.accountService.createAccount(createUserDto.getAccount())
@@ -81,12 +82,16 @@ public class UserUseCase implements UserService {
                                         .isActive(Boolean.TRUE)
                                         .genderId(createUserDto.getGender())
                                         .roleId(role.getRoleId())
-                                        .account(account)
                                         .build();
-
                                 return this.userRepository.createUser(userTo)
                                         .onItem().transform(userOp -> userOp
-                                                .<Either<MOCAErrorCodes, User>>map(Either::right)
+                                                .<Either<MOCAErrorCodes, UserAccount>>map(user -> {
+                                                    UserAccount userAccount = UserAccount.builder()
+                                                            .account(account)
+                                                            .user(user)
+                                                            .build();
+                                                    return Either.right(userAccount);
+                                                })
                                                 .orElseGet(() -> Either.left(MOCAErrorCodes.USER_ERROR_TO_CREATE))
                                         );
                             })

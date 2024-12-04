@@ -7,8 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.aey.user.domain.entities.Account;
-import org.aey.user.domain.entities.User;
+import org.aey.user.domain.entities.UserAccount;
 import org.aey.user.infrastructure.rest.dto.account.AccountDto;
 
 import java.util.Date;
@@ -48,17 +47,17 @@ public class UserAccountDto {
     @JsonProperty
     private AccountDto account;
 
-    public static UserAccountDto fromEntity(User entity, AccountDto account) {
+    public static UserAccountDto fromEntity(UserAccount entity) {
         return UserAccountDto.builder()
-                .userId(entity.getUserId())
-                .name(entity.getName())
-                .firstSurname(entity.getFirstSurname())
-                .secondSurname(entity.getSecondSurname())
-                .birthDate(entity.getBirthDate())
-                .createdAt(entity.getCreatedAt())
-                .updatedAt(entity.getUpdatedAt())
-                .isActive(entity.getIsActive())
-                .account(account)
+                .userId(entity.getUser().getUserId())
+                .name(entity.getUser().getName())
+                .firstSurname(entity.getUser().getFirstSurname())
+                .secondSurname(entity.getUser().getSecondSurname())
+                .birthDate(entity.getUser().getBirthDate())
+                .createdAt(entity.getUser().getCreatedAt())
+                .updatedAt(entity.getUser().getUpdatedAt())
+                .isActive(entity.getUser().getIsActive())
+                .account(AccountDto.fromEntity(entity.getAccount()))
                 .build();
     }
 }
