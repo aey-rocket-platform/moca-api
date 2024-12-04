@@ -24,4 +24,7 @@ public class User {
     private Date createdAt;
     private Date updatedAt;
     private Boolean isActive;
+    private Long genderId;
+    private Long roleId;
+    private Account account;
 }

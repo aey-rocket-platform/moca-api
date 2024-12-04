@@ -8,9 +8,15 @@ import org.aey.common.entities.errors.MOCAErrorCodes;
 import org.aey.common.entities.responses.MOCAResponse;
 import org.aey.common.entities.responses.MOCAResponseCode;
 import org.aey.common.entities.responses.MOCAResponseMapper;
+import org.aey.common.utils.nanoid.NanoId;
 import org.aey.user.application.ports.repostitory.AccountRepository;
 import org.aey.user.application.ports.services.AccountService;
+import org.aey.user.domain.entities.Account;
+import org.aey.user.domain.enums.AccountStatus;
 import org.aey.user.infrastructure.rest.dto.account.AccountDto;
+import org.aey.user.infrastructure.rest.dto.account.CreateAccountDto;
+
+import java.util.Date;
 
 @ApplicationScoped
 public class AccountUseCase implements AccountService {
@@ -32,5 +38,27 @@ public class AccountUseCase implements AccountService {
                             MOCAResponseMapper.toEntity(MOCAResponseCode.GET_ACCOUNT, AccountDto.fromEntity(accOp.get()))
                     );
                 });
+    }
+
+    @Override
+    public Uni<Either<MOCAErrorCodes, Account>> createAccount(CreateAccountDto createAccountDto) {
+        String nanoid = NanoId.randomNanoId();
+        Account account = Account.builder()
+                .accountId(nanoid)
+                .nickname(createAccountDto.getNickname())
+                .email(createAccountDto.getEmail())
+                .backupEmail(createAccountDto.getBackupEmail())
+                .password(createAccountDto.getPassword())
+                .mobilePhone(createAccountDto.getMobilePhone())
+                .phoneNumber(createAccountDto.getPhoneNumber())
+                .createdAt(new Date())
+                .updatedAt(new Date())
+                .isActive(Boolean.TRUE)
+                .status(AccountStatus.ACTIVE.getStatus())
+                .build();
+        return this.accountRepository.create(account)
+                .onItem().transform(accOp -> accOp.<Either<MOCAErrorCodes, Account>>map(Either::right)
+                        .orElseGet(() -> Either.left(MOCAErrorCodes.ACCOUNT_ERROR_TO_CREATE))
+                );
     }
 }

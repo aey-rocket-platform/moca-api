@@ -23,4 +23,11 @@ public class AccountDao implements AccountRepository {
         return this.accountPostgresRepository.findById(id)
                 .onItem().transform(accJpa -> Optional.ofNullable(accJpa).map(AccountJpa::toEntity));
     }
+
+    @Override
+    @WithSession
+    public Uni<Optional<Account>> create(Account account) {
+        return this.accountPostgresRepository.persistAndFlush(AccountJpa.fromEntity(account))
+                .onItem().ifNotNull().transform(accJpa -> Optional.ofNullable(accJpa).map(AccountJpa::toEntity));
+    }
 }

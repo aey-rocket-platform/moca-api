@@ -4,6 +4,7 @@ public class AccountQueryManager {
     public static final String ACCOUNT_TABLE_NAME = "t_usr02_accounts";
 
     public static final String ACCOUNT_ID = "account_id";
+    public static final String ACCOUNT_NICKNAME = "acc_tx_nickname";
     public static final String ACCOUNT_EMAIL = "acc_tx_email";
     public static final String ACCOUNT_BACKUP_EMAIL = "acc_tx_backup_email";
     public static final String ACCOUNT_PASSWORD = "acc_tx_password";

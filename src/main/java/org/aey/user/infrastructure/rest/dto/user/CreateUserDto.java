@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.aey.user.infrastructure.rest.dto.account.CreateAccountDto;
 
 import java.util.Date;
 
@@ -29,4 +30,10 @@ public class CreateUserDto {
 
     @JsonProperty
     private Date birthDate;
+
+    @JsonProperty
+    private Long gender;
+
+    @JsonProperty
+    private CreateAccountDto account;
 }

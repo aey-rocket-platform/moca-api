@@ -6,6 +6,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.aey.common.entities.errors.MOCAErrorMapper;
+import org.aey.common.entities.responses.MOCAResponseCode;
 import org.aey.common.entities.responses.MOCAResponseMapper;
 import org.aey.user.application.ports.services.RoleService;
 import org.aey.user.infrastructure.rest.dto.role.CreateRoleDto;
@@ -48,7 +49,8 @@ public class RoleController {
     public Uni<Response> getRole(@PathParam("id") Long id) {
         return this.roleService.getRoleById(id)
                 .onItem().ifNotNull().transform(either ->
-                        either.map(MOCAResponseMapper::toResponse)
+                        either.map(role -> MOCAResponseMapper.toEntity(MOCAResponseCode.GET_ROLE_BY_ID, role))
+                                .map(MOCAResponseMapper::toResponse)
                                 .getOrElseGet(MOCAErrorMapper::toResponse)
                 );
     }

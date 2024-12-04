@@ -50,6 +50,12 @@ public class UserJpa {
     @Column(name = UserQueryManager.USER_IS_ACTIVE)
     private Boolean isActive;
 
+    @Column(name = UserQueryManager.USER_GENDER_ID)
+    private Long genderId;
+
+    @Column(name = UserQueryManager.USER_ROLE_ID)
+    private Long roleId;
+
     public static UserJpa fromEntity(User entity) {
         return UserJpa.builder()
                 .userId(entity.getUserId())
@@ -60,6 +66,8 @@ public class UserJpa {
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isActive(entity.getIsActive())
+                .genderId(entity.getRoleId())
+                .roleId(entity.getRoleId())
                 .build();
     }
 
@@ -73,6 +81,8 @@ public class UserJpa {
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
                 .isActive(isActive)
+                .genderId(genderId)
+                .roleId(roleId)
                 .build();
     }
 }

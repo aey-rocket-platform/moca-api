@@ -17,6 +17,8 @@ public class UserQueryManager {
     public static final String USER_CREATED_AT = "usr_dt_created_at";
     public static final String USER_UPDATED_AT = "usr_dt_updated_at";
     public static final String USER_IS_ACTIVE = "usr_st_is_active";
+    public static final String USER_GENDER_ID = "usr_fk_gender_id";
+    public static final String USER_ROLE_ID = "usr_fk_role_id";
 
     public static  final String PARAM_USER_LIMIT = "limit";
     public static  final String PARAM_USER_OFFSET = "offset";

@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface AccountRepository {
     Uni<Optional<Account>> findOneById(String id);
+    Uni<Optional<Account>> create(Account account);
 }

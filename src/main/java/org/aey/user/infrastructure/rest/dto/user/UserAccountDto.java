@@ -19,7 +19,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class UserAccountDto {
 
     @JsonProperty
     private String userId;
@@ -48,8 +48,8 @@ public class UserDto {
     @JsonProperty
     private AccountDto account;
 
-    public static UserDto fromEntity(User entity) {
-        return UserDto.builder()
+    public static UserAccountDto fromEntity(User entity, AccountDto account) {
+        return UserAccountDto.builder()
                 .userId(entity.getUserId())
                 .name(entity.getName())
                 .firstSurname(entity.getFirstSurname())
@@ -58,7 +58,7 @@ public class UserDto {
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isActive(entity.getIsActive())
-                .account(entity.getAccount())
+                .account(account)
                 .build();
     }
 }

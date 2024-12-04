@@ -1,6 +1,5 @@
 package org.aey.user.application.implementations;
 
-import io.smallrye.common.annotation.Blocking;
 import io.smallrye.mutiny.Uni;
 import io.vavr.control.Either;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -11,10 +10,9 @@ import org.aey.common.entities.pagination.MOCAPaginationMapper;
 import org.aey.common.entities.responses.MOCAResponse;
 import org.aey.common.entities.responses.MOCAResponseCode;
 import org.aey.common.entities.responses.MOCAResponseMapper;
-import org.aey.common.utils.dates.DateUtils;
-import org.aey.common.utils.nanoid.NanoId;
-import org.aey.common.utils.nanoid.strategies.NanoIdGenerator;
 import org.aey.user.application.ports.repostitory.UserRepository;
+import org.aey.user.application.ports.services.AccountService;
+import org.aey.user.application.ports.services.RoleService;
 import org.aey.user.application.ports.services.UserService;
 import org.aey.user.domain.entities.User;
 import org.aey.user.infrastructure.rest.dto.user.CreateUserDto;
@@ -22,7 +20,6 @@ import org.aey.user.infrastructure.rest.dto.user.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -33,6 +30,12 @@ public class UserUseCase implements UserService {
 
     @Inject
     UserRepository userRepository;
+
+    @Inject
+    RoleService roleService;
+
+    @Inject
+    AccountService accountService;
 
     @Override
     public Uni<Either<MOCAErrorCodes, MOCAPagination<UserDto>>> getAll(Integer limit, Integer offset) {
@@ -60,23 +63,33 @@ public class UserUseCase implements UserService {
     }
 
     @Override
-    public Uni<Either<MOCAErrorCodes, MOCAResponse<UserDto>>> createUser(CreateUserDto createUserDto) {
-        //TODO: Create AccountService first with createAccountService method to persist the account first
-        //TODO: Create RoleService and GenderService to assign role and gender into builder
-        User userTo = User.builder()
-                .userId(NanoId.randomNanoId())
-                .name(createUserDto.getName())
-                .firstSurname(createUserDto.getFirstSurname())
-                .secondSurname(createUserDto.getSecondSurname())
-                .birthDate(createUserDto.getBirthDate())
-                .createdAt(new Date())
-                .updatedAt(new Date())
-                .isActive(Boolean.TRUE)
-                .build();
-        return this.userRepository.createUser(userTo)
-                .onItem().transform(userOp -> userOp
-                        .<Either<MOCAErrorCodes, MOCAResponse<UserDto>>>map(user -> Either.right(MOCAResponseMapper.toEntity(MOCAResponseCode.CREATE_USER, UserDto.fromEntity(user))))
-                        .orElseGet(() -> Either.left(MOCAErrorCodes.USER_ERROR_TO_CREATE))
+    public Uni<Either<MOCAErrorCodes, User>> createUser(CreateUserDto createUserDto) {
+        return this.roleService.getRoleById(3L)
+                .onItem().ifNotNull().transform(Either::get)
+                .onItem().transformToUni(role ->
+                        this.accountService.createAccount(createUserDto.getAccount())
+                            .onItem().transform(Either::get)
+                            .onItem().transformToUni(account -> {
+                                User userTo = User.builder()
+                                        .userId(account.getAccountId())
+                                        .name(createUserDto.getName())
+                                        .firstSurname(createUserDto.getFirstSurname())
+                                        .secondSurname(createUserDto.getSecondSurname())
+                                        .birthDate(createUserDto.getBirthDate())
+                                        .createdAt(new Date())
+                                        .updatedAt(new Date())
+                                        .isActive(Boolean.TRUE)
+                                        .genderId(createUserDto.getGender())
+                                        .roleId(role.getRoleId())
+                                        .account(account)
+                                        .build();
+
+                                return this.userRepository.createUser(userTo)
+                                        .onItem().transform(userOp -> userOp
+                                                .<Either<MOCAErrorCodes, User>>map(Either::right)
+                                                .orElseGet(() -> Either.left(MOCAErrorCodes.USER_ERROR_TO_CREATE))
+                                        );
+                            })
                 );
     }
 }

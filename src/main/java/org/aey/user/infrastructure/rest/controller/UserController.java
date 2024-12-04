@@ -7,9 +7,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.aey.common.entities.errors.MOCAErrorMapper;
 import org.aey.common.entities.pagination.MOCAPaginationMapper;
+import org.aey.common.entities.responses.MOCAResponseCode;
 import org.aey.common.entities.responses.MOCAResponseMapper;
 import org.aey.user.application.ports.services.UserService;
 import org.aey.user.infrastructure.rest.dto.user.CreateUserDto;
+import org.aey.user.infrastructure.rest.dto.user.UserAccountDto;
 import org.aey.user.infrastructure.rest.dto.user.UserDto;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -109,7 +111,7 @@ public class UserController {
     public Uni<Response> createUser(CreateUserDto createUserDto) {
         return this.userService.createUser(createUserDto)
                 .onItem().transform(either ->
-                        either.map(MOCAResponseMapper::toResponse)
+                        either.map(user -> MOCAResponseMapper.toResponse(MOCAResponseMapper.toEntity(MOCAResponseCode.CREATE_USER, UserDto.fromEntity(user))))
                                 .getOrElseGet(MOCAErrorMapper::toResponse)
                 );
     }

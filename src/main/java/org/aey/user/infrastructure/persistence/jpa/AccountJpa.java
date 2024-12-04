@@ -20,9 +20,11 @@ import java.util.List;
 public class AccountJpa {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = AccountQueryManager.ACCOUNT_ID)
     private String accountId;
+
+    @Column(name = AccountQueryManager.ACCOUNT_NICKNAME)
+    private String nickname;
 
     @Column(name = AccountQueryManager.ACCOUNT_EMAIL)
     private String email;
@@ -58,6 +60,7 @@ public class AccountJpa {
     public static AccountJpa fromEntity(Account account) {
         return AccountJpa.builder()
                 .accountId(account.getAccountId())
+                .nickname(account.getNickname())
                 .email(account.getEmail())
                 .backupEmail(account.getBackupEmail())
                 .password(account.getPassword())
@@ -73,6 +76,7 @@ public class AccountJpa {
     public Account toEntity() {
         return Account.builder()
                 .accountId(accountId)
+                .nickname(nickname)
                 .email(email)
                 .backupEmail(backupEmail)
                 .password(password)
