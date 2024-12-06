@@ -1,6 +1,5 @@
 package org.aey.user.infrastructure.rest.controller;
 
-import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -46,18 +45,15 @@ public class RoleController {
             description = "Unexpected server error",
             content = { @Content(mediaType = MediaType.APPLICATION_JSON) }
     )
-    public Uni<Response> getRole(@PathParam("id") Long id) {
+    public Response getRole(@PathParam("id") Long id) {
         return this.roleService.getRoleById(id)
-                .onItem().ifNotNull().transform(either ->
-                        either.map(role -> MOCAResponseMapper.toEntity(MOCAResponseCode.GET_ROLE_BY_ID, role))
-                                .map(MOCAResponseMapper::toResponse)
-                                .getOrElseGet(MOCAErrorMapper::toResponse)
-                );
+                .map(role -> MOCAResponseMapper.toResponse(MOCAResponseCode.GET_ROLE_BY_ID, role))
+                .getOrElseGet(MOCAErrorMapper::toResponse);
     }
 
     @POST
     @Path("create")
-    public Uni<Response> createRole(CreateRoleDto createRoleDto) {
+    public Response createRole(CreateRoleDto createRoleDto) {
         return null;
     }
 }

@@ -3,12 +3,9 @@ package org.aey.user.infrastructure.persistence.jpa;
 import jakarta.persistence.*;
 import lombok.*;
 import org.aey.user.domain.entities.Account;
-import org.aey.user.domain.entities.UserImage;
 import org.aey.user.infrastructure.persistence.queries.AccountQueryManager;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Builder
 @Getter

@@ -21,7 +21,7 @@ import java.util.Date;
 public class RoleJpa {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = RoleQueryManager.ROLE_ID)
     private Long roleId;
 

@@ -1,7 +1,5 @@
 package org.aey.user.infrastructure.rest.dto.role;
 
-
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;

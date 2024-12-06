@@ -66,8 +66,7 @@ public class UserJpa {
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .isActive(entity.getIsActive())
-                .genderId(entity.getRoleId())
-                .roleId(entity.getRoleId())
+                .genderId(entity.getGenderId())
                 .build();
     }
 
@@ -82,7 +81,6 @@ public class UserJpa {
                 .updatedAt(updatedAt)
                 .isActive(isActive)
                 .genderId(genderId)
-                .roleId(roleId)
                 .build();
     }
 }

@@ -7,10 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.aey.user.domain.entities.UserImage;
-
-import java.util.Date;
-import java.util.List;
 
 @Builder
 @Getter

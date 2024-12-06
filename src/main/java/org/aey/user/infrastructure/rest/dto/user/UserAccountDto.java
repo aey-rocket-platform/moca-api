@@ -49,14 +49,14 @@ public class UserAccountDto {
 
     public static UserAccountDto fromEntity(UserAccount entity) {
         return UserAccountDto.builder()
-                .userId(entity.getUser().getUserId())
-                .name(entity.getUser().getName())
-                .firstSurname(entity.getUser().getFirstSurname())
-                .secondSurname(entity.getUser().getSecondSurname())
-                .birthDate(entity.getUser().getBirthDate())
-                .createdAt(entity.getUser().getCreatedAt())
-                .updatedAt(entity.getUser().getUpdatedAt())
-                .isActive(entity.getUser().getIsActive())
+                .userId(entity.getUserId())
+                .name(entity.getName())
+                .firstSurname(entity.getFirstSurname())
+                .secondSurname(entity.getSecondSurname())
+                .birthDate(entity.getBirthDate())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
+                .isActive(entity.getIsActive())
                 .account(AccountDto.fromEntity(entity.getAccount()))
                 .build();
     }

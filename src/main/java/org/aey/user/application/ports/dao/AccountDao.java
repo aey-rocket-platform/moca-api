@@ -1,7 +1,5 @@
 package org.aey.user.application.ports.dao;
 
-import io.quarkus.hibernate.reactive.panache.common.WithSession;
-import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.aey.user.application.ports.repostitory.AccountRepository;
@@ -18,16 +16,17 @@ public class AccountDao implements AccountRepository {
     AccountPostgresRepository accountPostgresRepository;
 
     @Override
-    @WithSession
-    public Uni<Optional<Account>> findOneById(String id) {
-        return this.accountPostgresRepository.findById(id)
-                .onItem().transform(accJpa -> Optional.ofNullable(accJpa).map(AccountJpa::toEntity));
+    public Optional<Account> findOneById(String id) {
+        return this.accountPostgresRepository
+                .findById(id)
+                .map(AccountJpa::toEntity);
     }
 
     @Override
-    @WithSession
-    public Uni<Optional<Account>> create(Account account) {
-        return this.accountPostgresRepository.persistAndFlush(AccountJpa.fromEntity(account))
-                .onItem().ifNotNull().transform(accJpa -> Optional.ofNullable(accJpa).map(AccountJpa::toEntity));
+    public Optional<Account> create(Account account) {
+        return Optional.ofNullable(
+                this.accountPostgresRepository.saveAndFlush(AccountJpa.fromEntity(account)).toEntity()
+        );
+
     }
 }

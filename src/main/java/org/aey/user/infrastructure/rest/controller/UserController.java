@@ -1,12 +1,10 @@
 package org.aey.user.infrastructure.rest.controller;
 
-import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.aey.common.entities.errors.MOCAErrorMapper;
-import org.aey.common.entities.pagination.MOCAPaginationMapper;
 import org.aey.common.entities.responses.MOCAResponseCode;
 import org.aey.common.entities.responses.MOCAResponseMapper;
 import org.aey.user.application.ports.services.UserService;
@@ -17,13 +15,9 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Path("/v1/users")
 public class UserController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Inject
     UserService userService;
@@ -41,15 +35,13 @@ public class UserController {
             description = "Unexpected server error",
             content = { @Content(mediaType = MediaType.APPLICATION_JSON) }
     )
-    public Uni<Response> getAllUsers(
+    public Response getAllUsers(
             @QueryParam("limit") Integer limit,
             @QueryParam("offset") Integer offset
     ) {
-        return this.userService.getAll(limit, offset)
-                .onItem().transform(either ->
-                        either.map(MOCAPaginationMapper::toResponse)
-                                .getOrElseGet(MOCAErrorMapper::toResponse)
-                );
+        return this.userService.getAllActiveUsers(limit, offset)
+                .map(pagination -> MOCAResponseMapper.toResponse(MOCAResponseCode.GET_ALL_USERS, pagination))
+                .getOrElseGet(MOCAErrorMapper::toResponse);
     }
 
     @GET
@@ -76,12 +68,11 @@ public class UserController {
             description = "Unexpected server error",
             content = { @Content(mediaType = MediaType.APPLICATION_JSON) }
     )
-    public Uni<Response> getUserById(@PathParam("id") String id) {
+    public Response getUserById(@PathParam("id") String id) {
         return this.userService.getUserById(id)
-                .onItem().transform(either ->
-                    either.map(MOCAResponseMapper::toResponse)
-                            .getOrElseGet(MOCAErrorMapper::toResponse)
-                );
+                .map(UserAccountDto::fromEntity)
+                .map(userAcc -> MOCAResponseMapper.toResponse(MOCAResponseCode.GET_USER_BY_ID, userAcc))
+                .getOrElseGet(MOCAErrorMapper::toResponse);
     }
 
     @POST
@@ -108,12 +99,7 @@ public class UserController {
             description = "Unexpected server error",
             content = { @Content(mediaType = MediaType.APPLICATION_JSON) }
     )
-    public Uni<Response> createUser(CreateUserDto createUserDto) {
-        return this.userService.createUser(createUserDto)
-                .onItem().transform(either ->
-                        either.map(userAccount -> MOCAResponseMapper
-                                        .toResponse(MOCAResponseMapper.toEntity(MOCAResponseCode.CREATE_USER, UserAccountDto.fromEntity(userAccount))))
-                                .getOrElseGet(MOCAErrorMapper::toResponse)
-                );
+    public Response createUser(CreateUserDto createUserDto) {
+        return null;
     }
 }

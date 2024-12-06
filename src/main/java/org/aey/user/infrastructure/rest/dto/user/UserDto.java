@@ -7,9 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.aey.user.domain.entities.Account;
 import org.aey.user.domain.entities.User;
-import org.aey.user.infrastructure.rest.dto.account.AccountDto;
 
 import java.util.Date;
 

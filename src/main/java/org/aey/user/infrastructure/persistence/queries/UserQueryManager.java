@@ -1,8 +1,5 @@
 package org.aey.user.infrastructure.persistence.queries;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
 public class UserQueryManager {
 
     //User constrains

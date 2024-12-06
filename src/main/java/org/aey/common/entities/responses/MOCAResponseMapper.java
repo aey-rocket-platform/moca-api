@@ -4,7 +4,12 @@ import jakarta.ws.rs.core.Response;
 
 public class MOCAResponseMapper {
 
-    public static <T> MOCAResponse<T> toEntity(MOCAResponseCode mocaResponseCode, T data) {
+    public static <T> Response toResponse(MOCAResponseCode mocaResponseCode, T data) {
+        MOCAResponse<T> mocaResponse = build(mocaResponseCode, data);
+        return toResponse(mocaResponse);
+    }
+
+    public static <T> MOCAResponse<T> build(MOCAResponseCode mocaResponseCode, T data) {
         return MOCAResponse.<T>builder()
                 .statusCode(mocaResponseCode.getStatusCode())
                 .action(mocaResponseCode.getAction())

@@ -14,7 +14,8 @@ public enum MOCAResponseCode {
     CREATE_ACCOUNT(201, "Create account", "Account created successfully"),
 
     //Users
-    GET_USER(200, "Get user", "User retrieved successfully"),
+    GET_USER_BY_ID(200, "Get user", "User retrieved successfully"),
+    GET_ALL_USERS(200, "Get users", "Get all active users"),
     CREATE_USER(201, "Create user", "User created successfully"),
 
     //Products

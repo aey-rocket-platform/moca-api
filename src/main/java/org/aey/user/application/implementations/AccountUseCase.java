@@ -17,6 +17,7 @@ import org.aey.user.infrastructure.rest.dto.account.AccountDto;
 import org.aey.user.infrastructure.rest.dto.account.CreateAccountDto;
 
 import java.util.Date;
+import java.util.Optional;
 
 @ApplicationScoped
 public class AccountUseCase implements AccountService {
@@ -25,23 +26,19 @@ public class AccountUseCase implements AccountService {
     AccountRepository accountRepository;
 
     @Override
-    public Uni<Either<MOCAErrorCodes, MOCAResponse<AccountDto>>> getAccountById(String id) {
-        return this.accountRepository.findOneById(id)
-                .onItem().transform(accOp -> {
-                    if (accOp.isEmpty()) {
-                        return Either.left(MOCAErrorCodes.ACCOUNT_NOT_FOUND);
-                    }
-                    if (accOp.get().getIsActive().equals(Boolean.FALSE)) {
-                        return Either.left(MOCAErrorCodes.ACCOUNT_NOT_AVAILABLE);
-                    }
-                    return Either.right(
-                            MOCAResponseMapper.toEntity(MOCAResponseCode.GET_ACCOUNT, AccountDto.fromEntity(accOp.get()))
-                    );
-                });
+    public Either<MOCAErrorCodes, Account> getAccountById(String id) {
+        Optional<Account> accOp = this.accountRepository.findOneById(id);
+        if (accOp.isEmpty()) {
+            return Either.left(MOCAErrorCodes.ACCOUNT_NOT_FOUND);
+        }
+        if (accOp.get().getIsActive().equals(Boolean.FALSE)) {
+            return Either.left(MOCAErrorCodes.ACCOUNT_NOT_AVAILABLE);
+        }
+        return Either.right(accOp.get());
     }
 
     @Override
-    public Uni<Either<MOCAErrorCodes, Account>> createAccount(CreateAccountDto createAccountDto) {
+    public Either<MOCAErrorCodes, Account> createAccount(CreateAccountDto createAccountDto) {
         String nanoid = NanoId.randomNanoId();
         Account account = Account.builder()
                 .accountId(nanoid)
@@ -56,9 +53,10 @@ public class AccountUseCase implements AccountService {
                 .isActive(Boolean.TRUE)
                 .status(AccountStatus.ACTIVE.getStatus())
                 .build();
-        return this.accountRepository.create(account)
-                .onItem().transform(accOp -> accOp.<Either<MOCAErrorCodes, Account>>map(Either::right)
-                        .orElseGet(() -> Either.left(MOCAErrorCodes.ACCOUNT_ERROR_TO_CREATE))
-                );
+        return null;
+        //return this.accountRepository.create(account)
+                //.onItem().transform(accOp -> accOp.<Either<MOCAErrorCodes, Account>>map(Either::right)
+                        //.orElseGet(() -> Either.left(MOCAErrorCodes.ACCOUNT_ERROR_TO_CREATE))
+                //);
     }
 }

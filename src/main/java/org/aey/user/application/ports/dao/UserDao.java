@@ -1,55 +1,71 @@
 package org.aey.user.application.ports.dao;
 
-import io.quarkus.hibernate.reactive.panache.Panache;
-import io.quarkus.hibernate.reactive.panache.common.WithSession;
-import io.smallrye.common.annotation.Blocking;
-import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.aey.user.application.ports.repostitory.UserRepository;
 import org.aey.user.domain.entities.User;
 import org.aey.user.infrastructure.persistence.jpa.UserJpa;
+import org.aey.user.infrastructure.persistence.queries.UserQueryManager;
 import org.aey.user.infrastructure.persistence.repositories.UserPostgresRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
 public class UserDao implements UserRepository {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
+    @Inject
+    EntityManager entityManager;
 
     @Inject
     UserPostgresRepository userPostgresRepository;
 
+    @SuppressWarnings("unchecked")
     @Override
-    @WithSession
-    public Uni<List<User>> findAll(Integer limit, Integer offset) {
-        return this.userPostgresRepository.findAllActiveUsers(limit, offset)
-                .onItem().ifNotNull().transform(list ->
-                        list.stream()
-                                .map(UserJpa::toEntity)
-                                .toList()
-                );
+    public List<User> findAll(Integer limit, Integer offset) {
+        try {
+            List<Object[]> queryResult = (List<Object[]>) entityManager
+                    .createNativeQuery(UserQueryManager.USERS_PAGINATION)
+                    .setParameter(UserQueryManager.PARAM_USER_LIMIT, limit)
+                    .setParameter(UserQueryManager.PARAM_USER_OFFSET, offset)
+                    .getResultList();
+            if (queryResult.isEmpty()) {
+                return new ArrayList<>();
+            }
+            List<User> users = new ArrayList<>();
+            queryResult.forEach(user -> users.add(
+                    User.builder()
+                            .userId((String) user[0])
+                            .name((String) user[1])
+                            .firstSurname((String) user[2])
+                            .secondSurname((String) user[3])
+                            .birthDate((Date) user[4])
+                            .createdAt((Date) user[5])
+                            .updatedAt((Date) user[6])
+                            .isActive((Boolean) user[7])
+                            .build()
+            ));
+            return users;
+        } catch (Error e) {
+            return new ArrayList<>();
+        }
     }
 
     @Override
-    @WithSession
-    public Uni<Optional<User>> findOneById(String id) {
+    public Optional<User> findOneById(String id) {
         return this.userPostgresRepository.findById(id)
-                .onItem().ifNotNull().transform(userJpa ->
-                        Optional.ofNullable(userJpa).map(UserJpa::toEntity)
-                );
+                .map(UserJpa::toEntity);
     }
 
     @Override
-    @WithSession
-    public Uni<Optional<User>> createUser(User user) {
-        LOGGER.info("Creating user {}", user);
-        return this.userPostgresRepository.persistAndFlush(UserJpa.fromEntity(user))
-                .onItem().ifNotNull().transform(userJpa -> Optional.of(userJpa.toEntity()));
+    @Transactional
+    public Optional<User> createUser(User user) {
+        return Optional.ofNullable(
+                this.userPostgresRepository.saveAndFlush(UserJpa.fromEntity(user)).toEntity()
+        );
     }
 }

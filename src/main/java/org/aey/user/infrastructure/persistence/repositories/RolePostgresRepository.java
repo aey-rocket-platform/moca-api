@@ -1,9 +1,7 @@
 package org.aey.user.infrastructure.persistence.repositories;
 
-import io.quarkus.hibernate.reactive.panache.PanacheRepository;
-import jakarta.enterprise.context.ApplicationScoped;
 import org.aey.user.infrastructure.persistence.jpa.RoleJpa;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@ApplicationScoped
-public class RolePostgresRepository implements PanacheRepository<RoleJpa> {
+public interface RolePostgresRepository extends JpaRepository<RoleJpa, Long> {
 }

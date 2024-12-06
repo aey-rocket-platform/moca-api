@@ -25,5 +25,4 @@ public class User {
     private Date updatedAt;
     private Boolean isActive;
     private Long genderId;
-    private Long roleId;
 }
